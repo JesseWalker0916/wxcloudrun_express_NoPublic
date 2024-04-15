@@ -1,37 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>获取openid</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Replace Div Content with Response Headers</title>
 </head>
-
 <body>
-  <div>
-    hahaha
-  </div>
-  <script>
-    // 使用 JavaScript 获取特定表头的内容并打印到页面上
-    function printHeaderContent(headerName) {
-      var headers = new Headers();
-      fetch(window.location.href, { method: 'GET', headers: headers })
+
+<div id="headerContent">
+  demo
+</div>
+
+<script>
+// 使用 JavaScript 获取全部响应头的内容并替换到页面上的 div 中
+function replaceDivContentWithHeaders() {
+    var headers = new Headers();
+    fetch(window.location.href, { method: 'GET', headers: headers })
         .then(response => {
-          for (const [name, value] of response.headers.entries()) {
-            if (name.toLowerCase() === headerName.toLowerCase()) {
-              document.getElementById('headerContent').innerText = value;
-              break;
-            }
-          }
+            var headerContent = '';
+            response.headers.forEach((value, name) => {
+                headerContent += `${name}: ${value}\n`;
+            });
+            document.getElementById('headerContent').innerText = headerContent;
         })
         .catch(error => console.error('Error fetching headers:', error));
-    }
+}
 
-    // 在页面加载完成后调用该函数以获取并打印特定表头的内容
-    window.onload = function () {
-      printHeaderContent('X-WX-FROM-OPENID');
-    };
-  </script>
+// 在页面加载完成后调用该函数以获取并替换 div 内容为全部表头的内容
+window.onload = function() {
+    replaceDivContentWithHeaders();
+};
+</script>
+
 </body>
-
 </html>
