@@ -9,34 +9,30 @@
 
 <body>
 
-    <div id="headerContent">
-        aaaa
-    </div>
+    <pre id="apiResponse"></pre>
 
     <script>
-        // 调用云函数
-        function callCloudFunction() {
-            wx.cloud.callContainer({
-                "config": {
-                    "env": "prod-3g0pw5x2ad530519"
-                },
-                "path": "/api/wx_openid",
-                "header": {
-                    "X-WX-SERVICE": "express-pg88",
-                    "content-type": "application/json"
-                },
-                "method": "GET",
-                "data": ""
-            }).then(res => {
-                // 调用成功处理
-                console.log("调用成功", res);
-            }).catch(err => {
-                // 调用失败处理
-                console.error("调用失败", err);
+        // 你的API URL
+        const apiUrl = 'https://express-pg88-102061-5-1325703677.sh.run.tcloudbase.com//api/wx_openid';
+
+        // 使用fetch发送GET请求
+        fetch(apiUrl)
+            .then(response => {
+                // 确保请求成功
+                if (!response.ok) {
+                    throw new Error('网络请求错误');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 处理响应数据
+                console.log(data);
+                // 例如，将返回的数据显示在页面上
+                document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
+            })
+            .catch(error => {
+                console.error('请求失败:', error);
             });
-        }
-        // 在需要调用函数的地方调用该函数
-        callCloudFunction();
     </script>
 
 </body>
