@@ -1,36 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Replace Div Content with Response Headers</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Replace Div Content with Response Headers</title>
 </head>
+
 <body>
 
-<div id="headerContent">
-  demo 
-</div>
+    <div id="headerContent">
+        demo
+    </div>
 
-<script>
-// 使用 JavaScript 获取全部响应头的内容并替换到页面上的 div 中
-function replaceDivContentWithHeaders() {
-    var headers = new Headers();
-    fetch(window.location.href, { method: 'GET', headers: headers })
-        .then(response => {
-            var headerContent = '';
-            response.headers.forEach((value, name) => {
-                headerContent += `${name}: ${value}\n`;
+    <script>
+        // 调用云函数
+        function callCloudFunction() {
+            wx.cloud.callContainer({
+                "config": {
+                    "env": "prod-3g0pw5x2ad530519"
+                },
+                "path": "/api/wx_openid",
+                "header": {
+                    "X-WX-SERVICE": "express-pg88",
+                    "content-type": "application/json"
+                },
+                "method": "GET",
+                "data": ""
+            }).then(res => {
+                // 调用成功处理
+                console.log("调用成功", res);
+            }).catch(err => {
+                // 调用失败处理
+                console.error("调用失败", err);
             });
-            document.getElementById('headerContent').innerText = headerContent;
-        })
-        .catch(error => console.error('Error fetching headers:', error));
-}
-
-// 在页面加载完成后调用该函数以获取并替换 div 内容为全部表头的内容
-window.onload = function() {
-    replaceDivContentWithHeaders();
-};
-</script>
+        }
+        // 在需要调用函数的地方调用该函数
+        callCloudFunction();
+    </script>
 
 </body>
+
 </html>
