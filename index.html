@@ -1,40 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Replace Div Content with Response Headers</title>
+    <title>微信云托管服务调用示例</title>
 </head>
-
 <body>
-
-    <pre id="apiResponse"></pre>
+    <h1>微信云托管调用结果</h1>
+    <div id="data-container">调用结果将显示在这里</div>
 
     <script>
-        // 你的API URL
-        const apiUrl = 'https://express-pg88-102061-5-1325703677.sh.run.tcloudbase.com//api/wx_openid';
+        // 微信云托管的内网访问链接
+        const apiUrl = 'https://umwijiii.express-pg88.kdmr7mek.j4rfhc9p.com';
 
-        // 使用fetch发送GET请求
-        fetch(apiUrl)
-            .then(response => {
-                // 确保请求成功
-                if (!response.ok) {
-                    throw new Error('网络请求错误');
-                }
-                return response.json();
-            })
-            .then(data => {
-                // 处理响应数据
-                console.log(data);
-                // 例如，将返回的数据显示在页面上
-                document.getElementById('apiResponse').textContent = JSON.stringify(data, null, 2);
-            })
-            .catch(error => {
-                console.error('请求失败:', error);
-            });
+        // 通过fetch发起GET请求
+        fetch(apiUrl, {
+            method: 'GET', // 指定请求方法
+            headers: {
+                // 微信云托管服务通常需要设置服务名header，这里以"X-WX-SERVICE"为例
+                'X-WX-SERVICE': 'express-pg88',
+                'Content-Type': 'application/json', // 请求数据类型
+            },
+            // 如果请求需要特定数据，使用 POST 方法，并取消以下注释:
+            // method: 'POST',
+            // body: JSON.stringify({ key: 'value' }), // 替换为实际要发送的数据
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('网络请求失败');
+            }
+            return response.json(); // 假设响应数据为JSON格式
+        })
+        .then(data => {
+            // 在页面中显示调用结果
+            document.getElementById('data-container').textContent = JSON.stringify(data, null, 4);
+        })
+        .catch(error => {
+            // 如果在请求过程中出现错误，打印错误信息到控制台
+            console.error('请求出错:', error);
+        });
     </script>
-
 </body>
-
 </html>
